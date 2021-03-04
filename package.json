@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "scripts": {
         "serve": "next -p 4000",
-        "build": "next build",
+        "build": "next build && next export",
         "start": "next start",
         "type-check": "tsc",
         "prettier": "prettier -w \"(pages|components|layout|utils)/**/*.(ts|js|tsx|jsx)\"",
