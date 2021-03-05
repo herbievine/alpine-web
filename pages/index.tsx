@@ -1,4 +1,5 @@
 import React from 'react'
+import withApollo from '../utils/apolloWrapper'
 
 interface IndexProps {}
 
@@ -10,4 +11,4 @@ const Index: React.FC<IndexProps> = () => {
     )
 }
 
-export default Index
+export default withApollo({ ssr: true })(Index)

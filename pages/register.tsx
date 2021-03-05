@@ -1,4 +1,4 @@
-import React  from 'react'
+import React from 'react'
 import FormLayout from '../layout/FormLayout'
 import { Formik } from 'formik'
 import FormikFormHelper from '../components/helpers/FormikFormHelper'
@@ -10,6 +10,7 @@ import {
 import { useRegisterMutation } from '../generated/graphql'
 import { errorHandler } from '../utils/errorHandler'
 import { useRouter } from 'next/router'
+import withApollo from '../utils/apolloWrapper'
 
 interface RegisterProps {}
 
@@ -28,7 +29,7 @@ const Register: React.FC<RegisterProps> = () => {
     const [register, { client }] = useRegisterMutation()
 
     return (
-        <FormLayout title="Register" description="Register with your email.">
+        <FormLayout title="Register" description="Register with your email">
             <Formik
                 initialValues={{ email: '', username: '', password: '' }}
                 validate={(values: Values) => {
@@ -106,4 +107,4 @@ const Register: React.FC<RegisterProps> = () => {
     )
 }
 
-export default Register
+export default withApollo({ ssr: false })(Register)

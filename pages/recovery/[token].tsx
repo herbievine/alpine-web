@@ -1,38 +1,34 @@
-import React from 'react'
-import FormLayout from '../layout/FormLayout'
-import { Formik } from 'formik'
-import FormikFormHelper from '../components/helpers/FormikFormHelper'
-import { validateEmail, validatePassword } from '../utils/validators'
-import { useLoginMutation } from '../generated/graphql'
-import { errorHandler } from '../utils/errorHandler'
+import withApollo from '../../utils/apolloWrapper'
 import { useRouter } from 'next/router'
-import withApollo from '../utils/apolloWrapper'
+import React from 'react'
+import { Formik } from 'formik'
+import FormikFormHelper from '../../components/helpers/FormikFormHelper'
+import FormLayout from '../../layout/FormLayout'
+import { validatePassword } from '../../utils/validators'
 
-interface LoginProps {}
+interface TokenProps {}
 
 type FormikErrors = {
     [key: string]: string
 }
 
 type Values = {
-    email: ''
     password: ''
 }
 
-const Login: React.FC<LoginProps> = () => {
+const Token: React.FC<TokenProps> = ({}) => {
     const router = useRouter()
-    const [login, { client }] = useLoginMutation()
+    const { token } = router.query
 
     return (
-        <FormLayout title="Login" description="Login with your email">
+        <FormLayout
+            title="Reset password"
+            description="Enter your new password"
+        >
             <Formik
-                initialValues={{ email: '', password: '' }}
+                initialValues={{ password: '' }}
                 validate={(values: Values) => {
                     const errors: FormikErrors = {}
-
-                    const emailValidation = validateEmail(values.email)
-                    if (typeof emailValidation === 'string')
-                        errors.email = emailValidation
 
                     const passwordValidation = validatePassword(
                         values.password,
@@ -44,16 +40,15 @@ const Login: React.FC<LoginProps> = () => {
                     return errors
                 }}
                 onSubmit={async (values, { setErrors }) => {
-                    const response = await login({ variables: values })
+                    console.log(values)
 
-                    if (response.data?.login.errors) {
-                        return setErrors(
-                            errorHandler(response.data.login.errors)
-                        )
-                    } else if (response.data?.login.user) {
-                        await client.resetStore()
-                        await router.push('/')
-                    }
+                    // const response = await forgotPassword({
+                    //     variables: values
+                    // })
+
+                    // if (response?.data?.forgotPassword) {
+                    //     setSubmitted(true)
+                    // }
                 }}
             >
                 {({
@@ -75,15 +70,11 @@ const Login: React.FC<LoginProps> = () => {
                         isSubmitting={isSubmitting}
                         inputs={[
                             {
-                                label: 'Email',
-                                id: 'email'
-                            },
-                            {
                                 label: 'Password',
                                 id: 'password'
                             }
                         ]}
-                        submitText={'Login'}
+                        submitText={'Submit'}
                     />
                 )}
             </Formik>
@@ -91,4 +82,4 @@ const Login: React.FC<LoginProps> = () => {
     )
 }
 
-export default withApollo({ ssr: false })(Login)
+export default withApollo({ ssr: false })(Token)

@@ -8,9 +8,11 @@ interface Map {
 }
 
 export const errorHandler = (errors: Errors[]): Map => {
-    return errors.reduce((acc: Map, { field, message }): Record<string, string> => {
+    return errors.reduce((acc: Map, { field, message }): Record<
+        string,
+        string
+    > => {
         acc[field] = message
         return acc
     }, {})
 }
-

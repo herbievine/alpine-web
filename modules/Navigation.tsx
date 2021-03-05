@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useMeQuery, useLogoutMutation } from '../generated/graphql'
+import withApollo from '../utils/apolloWrapper'
 
 interface NavigationProps {}
 
@@ -58,4 +59,4 @@ const Navigation: React.FC<NavigationProps> = ({}) => {
     )
 }
 
-export default Navigation
+export default withApollo({ ssr: true })(Navigation)

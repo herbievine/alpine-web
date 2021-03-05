@@ -1,5 +1,5 @@
 const emailRegex: RegExp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-const usernameRegex: RegExp = /^[a-zA-Z\-]+$/
+const usernameRegex: RegExp = /^[a-zA-Z]+$/
 
 export const validateEmail = (email?: string): string | null => {
     if (!email) {
@@ -20,7 +20,7 @@ export const validateUsername = (
     } else if (minLength && username.length < minLength) {
         return `Username is too small. ${minLength} minimum`
     } else if (!usernameRegex.test(username)) {
-        return 'Username can only contain letters and hyphens'
+        return 'Username can only contain letters'
     }
 
     return null
