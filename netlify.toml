@@ -1,0 +1,4 @@
+[build]
+    base = "/"
+    publish = "/out"
+    command = "echo 'npm run gen && npm run build && npm run export'"
