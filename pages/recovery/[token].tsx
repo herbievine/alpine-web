@@ -20,6 +20,8 @@ const Token: React.FC<TokenProps> = ({}) => {
     const router = useRouter()
     const { token } = router.query
 
+    console.log(token);
+
     return (
         <FormLayout
             title="Reset password"
@@ -39,7 +41,7 @@ const Token: React.FC<TokenProps> = ({}) => {
 
                     return errors
                 }}
-                onSubmit={async (values, { setErrors }) => {
+                onSubmit={async (values) => {
                     console.log(values)
 
                     // const response = await forgotPassword({
