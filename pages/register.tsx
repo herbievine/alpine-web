@@ -55,10 +55,12 @@ const Register: React.FC<RegisterProps> = () => {
                     return errors
                 }}
                 onSubmit={async (values, { setErrors }) => {
-                    const response = await register(values)                    
-                    
+                    const response = await register(values)
+
                     if (response.data?.register.errors) {
-                        return setErrors(errorHandler(response.data.register.errors))
+                        return setErrors(
+                            errorHandler(response.data.register.errors)
+                        )
                     } else if (response.data?.register.user) {
                         router.push('/')
                     }

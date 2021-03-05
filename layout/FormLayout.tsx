@@ -7,7 +7,7 @@ interface FormLayout {
 
 const FormLayout: React.FC<FormLayout> = ({ children, title, description }) => {
     return (
-        <div className="w-screen mt-32 flex flex-col items-center justify-center">
+        <div className="w-screen mt-24 md:mt-32 flex flex-col items-center justify-center">
             <div className="p-6 flex flex-col items-center justify-center">
                 <h2 className="text-4xl font-semibold text-blue-400">
                     {title}

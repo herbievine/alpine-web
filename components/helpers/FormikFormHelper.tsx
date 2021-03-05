@@ -24,6 +24,7 @@ interface FormikFormHelper {
 const FormikFormHelper: React.FC<FormikFormHelper> = (props) => {
     return (
         <form
+            autoComplete="on"
             onSubmit={props.handleSubmit}
             className="flex flex-col justify-start items-center"
         >
@@ -51,6 +52,7 @@ const FormikFormHelper: React.FC<FormikFormHelper> = (props) => {
                         id={value.id}
                         type={value.id}
                         name={value.id}
+                        autoComplete={value.id}
                         onChange={props.handleChange}
                         onBlur={props.handleBlur}
                         value={props.values[value.id].toLowerCase()}

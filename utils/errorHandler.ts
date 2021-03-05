@@ -10,7 +10,7 @@ interface Map {
 export const errorHandler = (errors: Errors[]): Map => {
     const errorMap: Record<string, string> = {}
 
-    errors.forEach(({ field, message }) => errorMap[field] = message)
+    errors.forEach(({ field, message }) => (errorMap[field] = message))
 
     return errorMap
 }

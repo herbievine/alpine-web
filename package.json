@@ -6,10 +6,11 @@
         "build": "next build && next export",
         "start": "next start",
         "type-check": "tsc",
-        "prettier": "prettier -w \"(pages|components|layout|utils)/**/*.(ts|js|tsx|jsx)\"",
+        "prettier": "prettier -w \"(pages|components|layout|utils|modules)/**/*.(ts|js|tsx|jsx)\"",
         "gen": "graphql-codegen --config codegen.yml"
     },
     "dependencies": {
+        "@urql/exchange-graphcache": "^4.0.0",
         "formik": "^2.2.6",
         "graphql": "^15.5.0",
         "next": "latest",
