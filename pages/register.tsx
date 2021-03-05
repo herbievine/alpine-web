@@ -1,4 +1,4 @@
-import React from 'react'
+import React  from 'react'
 import FormLayout from '../layout/FormLayout'
 import { Formik } from 'formik'
 import FormikFormHelper from '../components/helpers/FormikFormHelper'
@@ -25,7 +25,7 @@ type Values = {
 
 const Register: React.FC<RegisterProps> = () => {
     const router = useRouter()
-    const [register] = useRegisterMutation()
+    const [register, { client }] = useRegisterMutation()
 
     return (
         <FormLayout title="Register" description="Register with your email.">
@@ -62,7 +62,8 @@ const Register: React.FC<RegisterProps> = () => {
                             errorHandler(response.data.register.errors)
                         )
                     } else if (response.data?.register.user) {
-                        router.push('/')
+                        await client.resetStore()
+                        await router.push('/')
                     }
                 }}
             >

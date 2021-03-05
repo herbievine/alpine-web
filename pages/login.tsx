@@ -20,7 +20,7 @@ type Values = {
 
 const Login: React.FC<LoginProps> = () => {
     const router = useRouter()
-    const [login] = useLoginMutation()
+    const [login, { client }] = useLoginMutation()
 
     return (
         <FormLayout title="Login" description="Login with your email.">
@@ -50,7 +50,8 @@ const Login: React.FC<LoginProps> = () => {
                             errorHandler(response.data.login.errors)
                         )
                     } else if (response.data?.login.user) {
-                        router.push('/')
+                        await client.resetStore()
+                        await router.push('/')
                     }
                 }}
             >
