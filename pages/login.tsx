@@ -20,7 +20,7 @@ type Values = {
 
 const Login: React.FC<LoginProps> = () => {
     const router = useRouter()
-    const [, login] = useLoginMutation()
+    const [login] = useLoginMutation()
 
     return (
         <FormLayout title="Login" description="Login with your email.">
@@ -43,7 +43,7 @@ const Login: React.FC<LoginProps> = () => {
                     return errors
                 }}
                 onSubmit={async (values, { setErrors }) => {
-                    const response = await login(values)
+                    const response = await login({ variables: values })
 
                     if (response.data?.login.errors) {
                         return setErrors(

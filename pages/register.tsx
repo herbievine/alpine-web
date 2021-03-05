@@ -25,7 +25,7 @@ type Values = {
 
 const Register: React.FC<RegisterProps> = () => {
     const router = useRouter()
-    const [, register] = useRegisterMutation()
+    const [register] = useRegisterMutation()
 
     return (
         <FormLayout title="Register" description="Register with your email.">
@@ -55,7 +55,7 @@ const Register: React.FC<RegisterProps> = () => {
                     return errors
                 }}
                 onSubmit={async (values, { setErrors }) => {
-                    const response = await register(values)
+                    const response = await register({ variables: values })
 
                     if (response.data?.register.errors) {
                         return setErrors(

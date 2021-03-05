@@ -10,6 +10,7 @@
         "gen": "graphql-codegen --config codegen.yml"
     },
     "dependencies": {
+        "@apollo/client": "^3.3.11",
         "@urql/exchange-graphcache": "^4.0.0",
         "formik": "^2.2.6",
         "graphql": "^15.5.0",
@@ -22,7 +23,7 @@
         "@graphql-codegen/cli": "1.21.1",
         "@graphql-codegen/typescript": "1.21.0",
         "@graphql-codegen/typescript-operations": "1.17.14",
-        "@graphql-codegen/typescript-react-apollo": "2.2.1",
+        "@graphql-codegen/typescript-react-apollo": "^2.2.1",
         "@graphql-codegen/typescript-urql": "^2.0.3",
         "@types/node": "^12.20.4",
         "@types/react": "^17.0.2",
