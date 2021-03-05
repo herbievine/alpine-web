@@ -47,9 +47,9 @@ const Login: React.FC<LoginProps> = () => {
                     
                     if (response.data?.login.errors) {
                         return setErrors(errorHandler(response.data.login.errors))
+                    } else if (response.data?.login.user) {
+                        router.push('/')
                     }
-
-                    router.push('/')
                 }}
             >
                 {({
