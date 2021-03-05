@@ -10,7 +10,8 @@ import {
     MeDocument,
     LoginMutation,
     RegisterMutation,
-    MeQuery
+    MeQuery,
+    LogoutMutation
 } from '../generated/graphql'
 import { updateQuery } from '../utils/urqlFunctionWrapper'
 
@@ -56,7 +57,15 @@ function MyApp({ Component, pageProps }: AppProps) {
                                     }
                                 }
                             )
-                        }
+                        },
+                        logout: (res, _, cache) => {
+                            updateQuery<LogoutMutation, MeQuery>(
+                                cache,
+                                { query: MeDocument },
+                                res,
+                                () => ({ me: null })
+                            )
+                        },
                     }
                 }
             })
