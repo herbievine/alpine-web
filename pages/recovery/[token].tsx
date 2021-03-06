@@ -1,4 +1,3 @@
-import withApollo from '../../utils/apolloWrapper'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { Formik } from 'formik'
@@ -20,7 +19,7 @@ const Token: React.FC<TokenProps> = ({}) => {
     const router = useRouter()
     const { token } = router.query
 
-    console.log(token);
+    console.log(token)
 
     return (
         <FormLayout
@@ -84,4 +83,4 @@ const Token: React.FC<TokenProps> = ({}) => {
     )
 }
 
-export default withApollo({ ssr: false })(Token)
+export default Token

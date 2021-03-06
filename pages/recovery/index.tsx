@@ -93,4 +93,4 @@ const Index: React.FC<IndexProps> = () => {
     )
 }
 
-export default withApollo({ ssr: false })(Index)
+export default Index

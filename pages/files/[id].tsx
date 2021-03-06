@@ -1,4 +1,3 @@
-import withApollo from '../../utils/apolloWrapper'
 import { useRouter } from 'next/router'
 import React from 'react'
 
@@ -11,4 +10,4 @@ const Files: React.FC<FilesProps> = ({}) => {
     return <div>File ID is {id}</div>
 }
 
-export default withApollo({ ssr: true })(Files)
+export default Files
