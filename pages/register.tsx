@@ -55,13 +55,11 @@ const Register: React.FC<RegisterProps> = () => {
                     return errors
                 }}
                 onSubmit={async (values, { setErrors }) => {
-                    const response = await register({ variables: values })
+                    const { data } = await register({ variables: values })
 
-                    if (response.data?.register.errors) {
-                        return setErrors(
-                            errorHandler(response.data.register.errors)
-                        )
-                    } else if (response.data?.register.user) {
+                    if (data?.register.errors) {
+                        return setErrors(errorHandler(data.register.errors))
+                    } else if (data?.register.user) {
                         await client.resetStore()
                         await router.push('/')
                     }

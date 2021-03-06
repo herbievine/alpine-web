@@ -21,10 +21,10 @@ const Index: React.FC<IndexProps> = () => {
     const [forgotPassword] = useForgotPasswordMutation()
 
     return (
-        <div>
+        <>
             {submitted ? (
                 <FormMessage
-                    variant="warning"
+                    variant="neutral"
                     title="Check your inbox"
                     message="
                         Check your inbox for the next steps. If you don't
@@ -88,7 +88,7 @@ const Index: React.FC<IndexProps> = () => {
                     </Formik>
                 </FormLayout>
             )}
-        </div>
+        </>
     )
 }
 

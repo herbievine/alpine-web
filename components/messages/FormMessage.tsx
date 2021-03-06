@@ -1,9 +1,14 @@
-import React from 'react'
-import { FaCheck, FaTimes, FaExclamationCircle } from 'react-icons/fa'
+import React, { ReactNode } from 'react'
+import {
+    FaCheck,
+    FaTimes,
+    FaExclamationCircle,
+    FaRegComment
+} from 'react-icons/fa'
 
 interface FormMessageProps {
-    variant: 'success' | 'error' | 'warning'
-    title?: string
+    variant: 'success' | 'error' | 'warning' | 'neutral'
+    title: string
     message: string
 }
 
@@ -12,21 +17,22 @@ const FormMessage: React.FC<FormMessageProps> = ({
     title,
     message
 }) => {
-    const theme =
-        variant === 'success'
-            ? 'bg-green-200'
-            : variant === 'error'
-            ? 'bg-red-200'
-            : 'bg-yellow-200'
+    let theme: string
+    let icon: ReactNode
 
-    const icon =
-        variant === 'success' ? (
-            <FaCheck className="mr-2" />
-        ) : variant === 'error' ? (
-            <FaTimes className="mr-2" />
-        ) : (
-            <FaExclamationCircle className="mr-2" />
-        )
+    if (variant === 'success') {
+        theme = 'bg-green-200'
+        icon = <FaCheck className="mr-2" />
+    } else if (variant === 'warning') {
+        theme = 'bg-yellow-200'
+        icon = <FaExclamationCircle className="mr-2" />
+    } else if (variant === 'error') {
+        theme = 'bg-red-200'
+        icon = <FaTimes className="mr-2" />
+    } else {
+        theme = 'bg-gray-200'
+        icon = <FaRegComment className="mr-2" />
+    }
 
     return (
         <div className="w-screen mt-24 md:mt-32 flex flex-col items-center justify-center">

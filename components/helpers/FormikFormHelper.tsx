@@ -5,6 +5,7 @@ import {
     FormikTouched,
     FormikHandlers
 } from 'formik'
+import Link from 'next/link'
 
 interface FormikFormHelper {
     handleSubmit: FormikHandlers['handleSubmit']
@@ -19,6 +20,7 @@ interface FormikFormHelper {
         id: string
     }[]
     submitText: string
+    forgotPassword?: boolean
 }
 
 const FormikFormHelper: React.FC<FormikFormHelper> = (props) => {
@@ -57,6 +59,15 @@ const FormikFormHelper: React.FC<FormikFormHelper> = (props) => {
                         onBlur={props.handleBlur}
                         value={props.values[value.id].toLowerCase()}
                     />
+                    {props.forgotPassword && value.id === 'password' && (
+                        <div className="mt-2 w-full flex justify-end">
+                            <Link href="/recovery">
+                                <p className="text-xs font-medium text-gray-500 cursor-pointer">
+                                    Forgot password?
+                                </p>
+                            </Link>
+                        </div>
+                    )}
                 </div>
             ))}
             <button

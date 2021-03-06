@@ -43,13 +43,11 @@ const Login: React.FC<LoginProps> = () => {
                     return errors
                 }}
                 onSubmit={async (values, { setErrors }) => {
-                    const response = await login({ variables: values })
+                    const { data } = await login({ variables: values })
 
-                    if (response.data?.login.errors) {
-                        return setErrors(
-                            errorHandler(response.data.login.errors)
-                        )
-                    } else if (response.data?.login.user) {
+                    if (data?.login.errors) {
+                        return setErrors(errorHandler(data.login.errors))
+                    } else if (data?.login.user) {
                         await client.resetStore()
                         await router.push('/')
                     }
@@ -83,6 +81,7 @@ const Login: React.FC<LoginProps> = () => {
                             }
                         ]}
                         submitText={'Login'}
+                        forgotPassword={true}
                     />
                 )}
             </Formik>
