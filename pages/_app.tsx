@@ -1,7 +1,7 @@
 import '../styles/globals.css'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
-import { ThemeContext } from '../components/ThemeContext'
+import { ThemeContext } from '../components/contexts/ThemeContext'
 import React, { useState } from 'react'
 import Navigation from '../modules/Navigation'
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
