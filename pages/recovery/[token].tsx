@@ -8,6 +8,7 @@ import { useChangePasswordMutation } from '../../generated/graphql'
 import { errorHandler } from '../../utils/errorHandler'
 import FormMessage from '../../components/messages/FormMessage'
 import withApollo from '../../utils/apolloWrapper'
+import { FaLock } from 'react-icons/fa'
 
 interface TokenProps {}
 
@@ -113,7 +114,10 @@ const Token: React.FC<TokenProps> = ({}) => {
                                         inputs={[
                                             {
                                                 label: 'Password',
-                                                id: 'password'
+                                                id: 'password',
+                                                placeholder:
+                                                    'Enter a new password',
+                                                icon: <FaLock />
                                             }
                                         ]}
                                         submitText={'Submit'}
