@@ -104,7 +104,7 @@ const FormikFormHelper: React.FC<FormikFormHelperProps> = ({
                 </div>
             ))}
             <button
-                className="mt-4 px-6 py-2 rounded-lg font-medium text-white bg-blue-400 hover:bg-blue-500 focus:outline-none transition duration-500 ease"
+                className="mt-4 px-6 py-2 rounded-lg font-medium text-white gradient focus:outline-none"
                 type="submit"
                 disabled={isSubmitting}
             >

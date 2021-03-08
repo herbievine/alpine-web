@@ -5,3 +5,13 @@
 body {
     font-family: 'Poppins', sans-serif;
 }
+
+.gradient {
+    background: rgb(237, 161, 68);
+    background: linear-gradient(
+        142deg,
+        rgba(237, 161, 68, 1) 0%,
+        rgba(239, 67, 67, 1) 50%,
+        rgba(238, 71, 153, 1) 100%
+    );
+}

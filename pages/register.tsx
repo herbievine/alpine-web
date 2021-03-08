@@ -1,5 +1,5 @@
 import React from 'react'
-import FormLayout from '../layout/FormLayout'
+import FormLayout from '../components/layout/FormLayout'
 import { Formik } from 'formik'
 import FormikFormHelper from '../components/helpers/FormikFormHelper'
 import {
