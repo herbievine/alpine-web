@@ -1,3 +1,4 @@
+import withApollo from '../utils/apolloWrapper'
 import React, { useContext } from 'react'
 import { ThemeContext } from '../components/contexts/ThemeContext'
 
@@ -25,4 +26,4 @@ const Index: React.FC<IndexProps> = () => {
     )
 }
 
-export default Index
+export default withApollo({ ssr: true })(Index)

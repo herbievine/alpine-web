@@ -6,6 +6,7 @@ import { validateEmail, validatePassword } from '../utils/validators'
 import { useLoginMutation } from '../generated/graphql'
 import { errorHandler } from '../utils/errorHandler'
 import { useRouter } from 'next/router'
+import withApollo from '../utils/apolloWrapper'
 
 interface LoginProps {}
 
@@ -89,4 +90,4 @@ const Login: React.FC<LoginProps> = () => {
     )
 }
 
-export default Login
+export default withApollo({ ssr: false })(Login)

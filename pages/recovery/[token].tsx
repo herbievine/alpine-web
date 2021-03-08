@@ -7,6 +7,7 @@ import { validatePassword } from '../../utils/validators'
 import { useChangePasswordMutation } from '../../generated/graphql'
 import { errorHandler } from '../../utils/errorHandler'
 import FormMessage from '../../components/messages/FormMessage'
+import withApollo from '../../utils/apolloWrapper'
 
 interface TokenProps {}
 
@@ -127,4 +128,4 @@ const Token: React.FC<TokenProps> = ({}) => {
     )
 }
 
-export default Token
+export default withApollo({ ssr: false })(Token)

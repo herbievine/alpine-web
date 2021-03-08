@@ -10,6 +10,7 @@ import {
 import { useRegisterMutation } from '../generated/graphql'
 import { errorHandler } from '../utils/errorHandler'
 import { useRouter } from 'next/router'
+import withApollo from '../utils/apolloWrapper'
 
 interface RegisterProps {}
 
@@ -104,4 +105,4 @@ const Register: React.FC<RegisterProps> = () => {
     )
 }
 
-export default Register
+export default withApollo({ ssr: false })(Register)

@@ -5,6 +5,7 @@ import FormikFormHelper from '../../components/helpers/FormikFormHelper'
 import { validateEmail } from '../../utils/validators'
 import { useForgotPasswordMutation } from '../../generated/graphql'
 import FormMessage from '../../components/messages/FormMessage'
+import withApollo from '../../utils/apolloWrapper'
 
 interface IndexProps {}
 
@@ -92,4 +93,4 @@ const Index: React.FC<IndexProps> = () => {
     )
 }
 
-export default Index
+export default withApollo({ ssr: false })(Index)
