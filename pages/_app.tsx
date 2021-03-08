@@ -18,7 +18,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     return (
         <>
             <Head>
-                <title>Alpine</title>
+                <title>loop</title>
             </Head>
             <ApolloProvider client={client}>
                 <ThemeContext.Provider value={{ theme, setTheme }}>
