@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import {
     FormikValues,
     FormikErrors,
@@ -6,8 +6,9 @@ import {
     FormikHandlers
 } from 'formik'
 import Link from 'next/link'
+import { useState } from 'react'
 
-interface FormikFormHelper {
+interface FormikFormHelperProps {
     handleSubmit: FormikHandlers['handleSubmit']
     handleChange: FormikHandlers['handleChange']
     handleBlur: FormikHandlers['handleBlur']
@@ -18,19 +19,34 @@ interface FormikFormHelper {
     inputs: {
         label: string
         id: string
+        placeholder: string
+        icon: ReactNode
     }[]
     submitText: string
     forgotPassword?: boolean
 }
 
-const FormikFormHelper: React.FC<FormikFormHelper> = (props) => {
+const FormikFormHelper: React.FC<FormikFormHelperProps> = ({
+    handleSubmit,
+    handleChange,
+    handleBlur,
+    values,
+    errors,
+    touched,
+    isSubmitting,
+    inputs,
+    submitText,
+    forgotPassword
+}) => {
+    const [currentSelection, setCurrectSelection] = useState('')
+
     return (
         <form
             autoComplete="on"
-            onSubmit={props.handleSubmit}
+            onSubmit={handleSubmit}
             className="flex flex-col justify-start items-center"
         >
-            {[...props.inputs].map((value, index) => (
+            {[...inputs].map((value, index) => (
                 <div
                     className={`
                         flex flex-col justify-start items-center
@@ -44,22 +60,39 @@ const FormikFormHelper: React.FC<FormikFormHelper> = (props) => {
                             <span className="text-red-500">*</span>
                         </label>
                         <p className="text-xs font-medium text-red-500">
-                            {props.errors &&
-                                props.touched[value.id] &&
-                                props.errors[value.id]}
+                            {errors && touched[value.id] && errors[value.id]}
                         </p>
                     </div>
-                    <input
-                        className="py-1 px-3 mt-1 rounded-md bg-gray-100 sm:w-96 focus:outline-none focus:ring focus:border-blue-400"
-                        id={value.id}
-                        type={value.id}
-                        name={value.id}
-                        autoComplete={value.id}
-                        onChange={props.handleChange}
-                        onBlur={props.handleBlur}
-                        value={props.values[value.id].toLowerCase()}
-                    />
-                    {props.forgotPassword && value.id === 'password' && (
+                    <div className="w-full flex items-center mt-1">
+                        <div
+                            className={`
+                                py-2.5 px-4 border-t-2 border-l-2 border-b-2 rounded-l-lg
+                                ${
+                                    currentSelection === value.id
+                                        ? 'border-blue-400'
+                                        : 'border-gray-100'
+                                }
+                            `}
+                        >
+                            {value.icon}
+                        </div>
+                        <input
+                            className="py-2 pr-4 text-sm sm:w-96 border-t-2 border-r-2 border-b-2 rounded-r-lg border-gray-100 focus:border-blue-400 focus:outline-none"
+                            id={value.id}
+                            type={value.id}
+                            name={value.id}
+                            placeholder={value.placeholder}
+                            autoComplete={value.id}
+                            onChange={handleChange}
+                            onBlur={(event) => {
+                                handleBlur(event)
+                                setCurrectSelection('')
+                            }}
+                            onFocus={() => setCurrectSelection(value.id)}
+                            value={values[value.id].toLowerCase()}
+                        />
+                    </div>
+                    {forgotPassword && value.id === 'password' && (
                         <div className="mt-2 w-full flex justify-end">
                             <Link href="/recovery">
                                 <p className="text-xs font-medium text-gray-500 cursor-pointer">
@@ -73,9 +106,9 @@ const FormikFormHelper: React.FC<FormikFormHelper> = (props) => {
             <button
                 className="mt-4 px-6 py-2 rounded-lg font-medium text-white bg-blue-400 hover:bg-blue-500 focus:outline-none transition duration-500 ease"
                 type="submit"
-                disabled={props.isSubmitting}
+                disabled={isSubmitting}
             >
-                {props.submitText}
+                {submitText}
             </button>
         </form>
     )

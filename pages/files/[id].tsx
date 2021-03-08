@@ -11,4 +11,4 @@ const Files: React.FC<FilesProps> = ({}) => {
     return <div>File ID is {id}</div>
 }
 
-export default withApollo({ ssr: true })(Files)
+export default withApollo({ ssr: false })(Files)

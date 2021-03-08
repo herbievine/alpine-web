@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useMeQuery, useLogoutMutation } from '../generated/graphql'
+import { useMeQuery, useLogoutMutation } from '../../generated/graphql'
 
 interface NavigationProps {}
 

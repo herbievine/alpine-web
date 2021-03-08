@@ -6,6 +6,7 @@ import { validateEmail } from '../../utils/validators'
 import { useForgotPasswordMutation } from '../../generated/graphql'
 import FormMessage from '../../components/messages/FormMessage'
 import withApollo from '../../utils/apolloWrapper'
+import { FaRegEnvelope } from 'react-icons/fa'
 
 interface IndexProps {}
 
@@ -80,7 +81,9 @@ const Index: React.FC<IndexProps> = () => {
                                 inputs={[
                                     {
                                         label: 'Email',
-                                        id: 'email'
+                                        id: 'email',
+                                        placeholder: 'Enter your email',
+                                        icon: <FaRegEnvelope />
                                     }
                                 ]}
                                 submitText={'Submit'}

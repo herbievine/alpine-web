@@ -7,6 +7,7 @@ import { useLoginMutation } from '../generated/graphql'
 import { errorHandler } from '../utils/errorHandler'
 import { useRouter } from 'next/router'
 import withApollo from '../utils/apolloWrapper'
+import { FaRegEnvelope, FaLock } from 'react-icons/fa'
 
 interface LoginProps {}
 
@@ -74,11 +75,15 @@ const Login: React.FC<LoginProps> = () => {
                         inputs={[
                             {
                                 label: 'Email',
-                                id: 'email'
+                                id: 'email',
+                                placeholder: 'Enter your email',
+                                icon: <FaRegEnvelope />
                             },
                             {
                                 label: 'Password',
-                                id: 'password'
+                                id: 'password',
+                                placeholder: 'Enter your password',
+                                icon: <FaLock />
                             }
                         ]}
                         submitText={'Login'}

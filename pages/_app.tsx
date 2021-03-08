@@ -3,7 +3,7 @@ import { AppProps } from 'next/app'
 import Head from 'next/head'
 import { ThemeContext } from '../components/contexts/ThemeContext'
 import React, { useState } from 'react'
-import Navigation from '../modules/Navigation'
+import Navigation from '../components/modules/Navigation'
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
 
 function MyApp({ Component, pageProps }: AppProps) {

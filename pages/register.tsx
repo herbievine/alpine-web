@@ -11,6 +11,7 @@ import { useRegisterMutation } from '../generated/graphql'
 import { errorHandler } from '../utils/errorHandler'
 import { useRouter } from 'next/router'
 import withApollo from '../utils/apolloWrapper'
+import { FaLock, FaRegEnvelope, FaUser } from 'react-icons/fa'
 
 interface RegisterProps {}
 
@@ -86,15 +87,21 @@ const Register: React.FC<RegisterProps> = () => {
                         inputs={[
                             {
                                 label: 'Email',
-                                id: 'email'
+                                id: 'email',
+                                placeholder: 'Enter your email',
+                                icon: <FaRegEnvelope />
                             },
                             {
                                 label: 'Username',
-                                id: 'username'
+                                id: 'username',
+                                placeholder: 'Enter a username',
+                                icon: <FaUser />
                             },
                             {
                                 label: 'Password',
-                                id: 'password'
+                                id: 'password',
+                                placeholder: 'Enter your password',
+                                icon: <FaLock />
                             }
                         ]}
                         submitText={'Register'}
