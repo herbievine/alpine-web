@@ -22,6 +22,7 @@ type Values = {
 
 const Login: React.FC<LoginProps> = () => {
     const router = useRouter()
+    const next = router.query.next as string | undefined
     const [login, { client }] = useLoginMutation()
 
     return (
@@ -51,7 +52,7 @@ const Login: React.FC<LoginProps> = () => {
                         return setErrors(errorHandler(data.login.errors))
                     } else if (data?.login.user) {
                         await client.resetStore()
-                        await router.push('/')
+                        await router.push(next ? next : '/')
                     }
                 }}
             >

@@ -1,4 +1,4 @@
-fragment Errors on FieldError {
+fragment UserErrors on UserFieldError {
     field
     message
 }
