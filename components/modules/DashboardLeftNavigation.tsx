@@ -5,7 +5,7 @@ import { useFoldersQuery } from '../../generated/graphql'
 interface DashboardLeftNavigationProps {}
 
 const DashboardLeftNavigation: React.FC<DashboardLeftNavigationProps> = ({}) => {
-    const { data, loading } = useFoldersQuery()
+    const { data } = useFoldersQuery()
     const folders = data?.folders.data
 
     const [selected, setSelected] =
