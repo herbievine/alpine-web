@@ -1,0 +1,4 @@
+fragment Folder on Folder {
+    id
+    title
+}

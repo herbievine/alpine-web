@@ -1,0 +1,10 @@
+query Folders {
+    folders {
+        errors {
+            message
+        }
+        data {
+            ...Folder
+        }
+    }
+}

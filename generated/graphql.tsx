@@ -16,31 +16,59 @@ export type Scalars = {
 export type Query = {
   __typename?: 'Query';
   me?: Maybe<User>;
-  files: Array<File>;
-  file?: Maybe<File>;
+  folders: FoldersResponse;
+  folder?: Maybe<FolderResponse>;
 };
 
 
-export type QueryFileArgs = {
-  id: Scalars['Float'];
+export type QueryFolderArgs = {
+  id: Scalars['String'];
 };
 
 export type User = {
   __typename?: 'User';
-  id: Scalars['Float'];
+  id: Scalars['String'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
   username: Scalars['String'];
   email: Scalars['String'];
 };
 
+export type FoldersResponse = {
+  __typename?: 'FoldersResponse';
+  errors?: Maybe<Array<FolderMessageError>>;
+  data?: Maybe<Array<Folder>>;
+};
+
+export type FolderMessageError = {
+  __typename?: 'FolderMessageError';
+  message: Scalars['String'];
+};
+
+export type Folder = {
+  __typename?: 'Folder';
+  id: Scalars['String'];
+  createdAt: Scalars['String'];
+  updatedAt: Scalars['String'];
+  title: Scalars['String'];
+  creatorId: Scalars['String'];
+  files?: Maybe<Array<File>>;
+};
+
 export type File = {
   __typename?: 'File';
-  id: Scalars['Float'];
+  id: Scalars['String'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
   title: Scalars['String'];
   text: Scalars['String'];
+  folderId: Scalars['String'];
+};
+
+export type FolderResponse = {
+  __typename?: 'FolderResponse';
+  errors?: Maybe<Array<FolderMessageError>>;
+  data?: Maybe<Folder>;
 };
 
 export type Mutation = {
@@ -51,9 +79,9 @@ export type Mutation = {
   changePassword: UserResponse;
   logout: Scalars['Boolean'];
   deleteUser: Scalars['Boolean'];
-  createFile: File;
-  updateFile?: Maybe<File>;
-  deleteFile: Scalars['Boolean'];
+  createFile: FolderResponse;
+  updateFolder?: Maybe<FolderResponse>;
+  deleteFolder: Scalars['Boolean'];
 };
 
 
@@ -91,32 +119,36 @@ export type MutationCreateFileArgs = {
 };
 
 
-export type MutationUpdateFileArgs = {
-  text?: Maybe<Scalars['String']>;
+export type MutationUpdateFolderArgs = {
   title?: Maybe<Scalars['String']>;
-  id: Scalars['Float'];
+  id: Scalars['String'];
 };
 
 
-export type MutationDeleteFileArgs = {
-  id: Scalars['Float'];
+export type MutationDeleteFolderArgs = {
+  id: Scalars['String'];
 };
 
 export type UserResponse = {
   __typename?: 'UserResponse';
-  errors?: Maybe<Array<FieldError>>;
+  errors?: Maybe<Array<UserFieldError>>;
   user?: Maybe<User>;
 };
 
-export type FieldError = {
-  __typename?: 'FieldError';
+export type UserFieldError = {
+  __typename?: 'UserFieldError';
   field: Scalars['String'];
   message: Scalars['String'];
 };
 
-export type ErrorsFragment = (
-  { __typename?: 'FieldError' }
-  & Pick<FieldError, 'field' | 'message'>
+export type UserErrorsFragment = (
+  { __typename?: 'UserFieldError' }
+  & Pick<UserFieldError, 'field' | 'message'>
+);
+
+export type FolderFragment = (
+  { __typename?: 'Folder' }
+  & Pick<Folder, 'id' | 'title'>
 );
 
 export type UserFragment = (
@@ -135,8 +167,8 @@ export type ChangePasswordMutation = (
   & { changePassword: (
     { __typename?: 'UserResponse' }
     & { errors?: Maybe<Array<(
-      { __typename?: 'FieldError' }
-      & ErrorsFragment
+      { __typename?: 'UserFieldError' }
+      & UserErrorsFragment
     )>>, user?: Maybe<(
       { __typename?: 'User' }
       & UserFragment
@@ -165,8 +197,8 @@ export type LoginMutation = (
   & { login: (
     { __typename?: 'UserResponse' }
     & { errors?: Maybe<Array<(
-      { __typename?: 'FieldError' }
-      & ErrorsFragment
+      { __typename?: 'UserFieldError' }
+      & UserErrorsFragment
     )>>, user?: Maybe<(
       { __typename?: 'User' }
       & UserFragment
@@ -194,12 +226,29 @@ export type RegisterMutation = (
   & { register: (
     { __typename?: 'UserResponse' }
     & { errors?: Maybe<Array<(
-      { __typename?: 'FieldError' }
-      & ErrorsFragment
+      { __typename?: 'UserFieldError' }
+      & UserErrorsFragment
     )>>, user?: Maybe<(
       { __typename?: 'User' }
       & UserFragment
     )> }
+  ) }
+);
+
+export type FoldersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FoldersQuery = (
+  { __typename?: 'Query' }
+  & { folders: (
+    { __typename?: 'FoldersResponse' }
+    & { errors?: Maybe<Array<(
+      { __typename?: 'FolderMessageError' }
+      & Pick<FolderMessageError, 'message'>
+    )>>, data?: Maybe<Array<(
+      { __typename?: 'Folder' }
+      & FolderFragment
+    )>> }
   ) }
 );
 
@@ -214,10 +263,16 @@ export type MeQuery = (
   )> }
 );
 
-export const ErrorsFragmentDoc = gql`
-    fragment Errors on FieldError {
+export const UserErrorsFragmentDoc = gql`
+    fragment UserErrors on UserFieldError {
   field
   message
+}
+    `;
+export const FolderFragmentDoc = gql`
+    fragment Folder on Folder {
+  id
+  title
 }
     `;
 export const UserFragmentDoc = gql`
@@ -230,14 +285,14 @@ export const ChangePasswordDocument = gql`
     mutation ChangePassword($token: String!, $password: String!) {
   changePassword(token: $token, password: $password) {
     errors {
-      ...Errors
+      ...UserErrors
     }
     user {
       ...User
     }
   }
 }
-    ${ErrorsFragmentDoc}
+    ${UserErrorsFragmentDoc}
 ${UserFragmentDoc}`;
 export type ChangePasswordMutationFn = Apollo.MutationFunction<ChangePasswordMutation, ChangePasswordMutationVariables>;
 
@@ -299,14 +354,14 @@ export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
   login(email: $email, password: $password) {
     errors {
-      ...Errors
+      ...UserErrors
     }
     user {
       ...User
     }
   }
 }
-    ${ErrorsFragmentDoc}
+    ${UserErrorsFragmentDoc}
 ${UserFragmentDoc}`;
 export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
 
@@ -367,14 +422,14 @@ export const RegisterDocument = gql`
     mutation Register($username: String!, $password: String!, $email: String!) {
   register(username: $username, password: $password, email: $email) {
     errors {
-      ...Errors
+      ...UserErrors
     }
     user {
       ...User
     }
   }
 }
-    ${ErrorsFragmentDoc}
+    ${UserErrorsFragmentDoc}
 ${UserFragmentDoc}`;
 export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, RegisterMutationVariables>;
 
@@ -403,6 +458,43 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const FoldersDocument = gql`
+    query Folders {
+  folders {
+    errors {
+      message
+    }
+    data {
+      ...Folder
+    }
+  }
+}
+    ${FolderFragmentDoc}`;
+
+/**
+ * __useFoldersQuery__
+ *
+ * To run a query within a React component, call `useFoldersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFoldersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFoldersQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFoldersQuery(baseOptions?: Apollo.QueryHookOptions<FoldersQuery, FoldersQueryVariables>) {
+        return Apollo.useQuery<FoldersQuery, FoldersQueryVariables>(FoldersDocument, baseOptions);
+      }
+export function useFoldersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FoldersQuery, FoldersQueryVariables>) {
+          return Apollo.useLazyQuery<FoldersQuery, FoldersQueryVariables>(FoldersDocument, baseOptions);
+        }
+export type FoldersQueryHookResult = ReturnType<typeof useFoldersQuery>;
+export type FoldersLazyQueryHookResult = ReturnType<typeof useFoldersLazyQuery>;
+export type FoldersQueryResult = Apollo.QueryResult<FoldersQuery, FoldersQueryVariables>;
 export const MeDocument = gql`
     query Me {
   me {
