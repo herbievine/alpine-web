@@ -1,8 +1,8 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { FaPlus } from 'react-icons/fa'
 import Popup from 'reactjs-popup'
 import { FolderQuery, useFilesQuery } from '../../generated/graphql'
-import { Dashboard, DashboardContext } from '../contexts/DashboardContext'
+import { useDashboardContext } from '../contexts/DashboardContext'
 import DashboardPopup from '../messages/DashboardPopup'
 import FileCard from './FileCard'
 
@@ -16,12 +16,12 @@ const FileSwitcher: React.FC<FileSwitcherProps> = ({ folder }) => {
     })
     const files = data?.files?.data
 
-    const dashboardContext = useContext<Dashboard | null>(DashboardContext)
+    const dashboardContext = useDashboardContext()
 
     useEffect(() => dashboardContext?.setSelectedFile(''), [])
 
     return (
-        <div className="mt-11 text-gray-700 w-full">
+        <div className="mt-11 text-gray-700 w-96">
             <div className="ml-6 text-xl font-semibold ">
                 <h2>{folder.folder?.data?.title}</h2>
             </div>
@@ -52,7 +52,7 @@ const FileSwitcher: React.FC<FileSwitcherProps> = ({ folder }) => {
                 )}
                 <Popup
                     trigger={
-                        <div className="py-4 px-4 bg-white flex justify-start items-center rounded-lg shadow-lg relative cursor-pointer">
+                        <div className="py-4 px-4 w-72 bg-white flex justify-start items-center rounded-lg shadow-lg relative cursor-pointer">
                             <p className="ml-3 mr-4 text-sm font-bold">
                                 Create new document
                             </p>

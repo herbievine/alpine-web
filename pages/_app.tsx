@@ -22,9 +22,9 @@ function MyApp({ Component, pageProps }: AppProps) {
             <ApolloProvider client={client}>
                 <ThemeContext.Provider value={{ theme, setTheme }}>
                     <div className={theme}>
-                        <div className="h-screen w-screen bg-gray-200 dark:bg-gray-800">
-                            <Component {...pageProps} />
-                        </div>
+                        {/* <div className="h-screen w-screen bg-gray-200 dark:bg-gray-800"> */}
+                        <Component {...pageProps} />
+                        {/* </div> */}
                     </div>
                 </ThemeContext.Provider>
             </ApolloProvider>

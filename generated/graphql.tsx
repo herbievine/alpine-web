@@ -341,6 +341,46 @@ export type RegisterMutation = (
   ) }
 );
 
+export type UpdateFileMutationVariables = Exact<{
+  id: Scalars['String'];
+  title?: Maybe<Scalars['String']>;
+  text?: Maybe<Scalars['String']>;
+}>;
+
+
+export type UpdateFileMutation = (
+  { __typename?: 'Mutation' }
+  & { updateFile?: Maybe<(
+    { __typename?: 'FileResponse' }
+    & { errors?: Maybe<Array<(
+      { __typename?: 'FileFieldError' }
+      & Pick<FileFieldError, 'field' | 'message'>
+    )>>, data?: Maybe<(
+      { __typename?: 'File' }
+      & Pick<File, 'id' | 'updatedAt' | 'createdAt' | 'title' | 'text'>
+    )> }
+  )> }
+);
+
+export type FileQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type FileQuery = (
+  { __typename?: 'Query' }
+  & { file?: Maybe<(
+    { __typename?: 'FileResponse' }
+    & { errors?: Maybe<Array<(
+      { __typename?: 'FileFieldError' }
+      & FileErrorFragment
+    )>>, data?: Maybe<(
+      { __typename?: 'File' }
+      & Pick<File, 'id' | 'createdAt' | 'updatedAt' | 'title' | 'text'>
+    )> }
+  )> }
+);
+
 export type FilesQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
@@ -706,6 +746,95 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const UpdateFileDocument = gql`
+    mutation UpdateFile($id: String!, $title: String, $text: String) {
+  updateFile(id: $id, text: $text, title: $title) {
+    errors {
+      field
+      message
+    }
+    data {
+      id
+      updatedAt
+      createdAt
+      title
+      text
+    }
+  }
+}
+    `;
+export type UpdateFileMutationFn = Apollo.MutationFunction<UpdateFileMutation, UpdateFileMutationVariables>;
+
+/**
+ * __useUpdateFileMutation__
+ *
+ * To run a mutation, you first call `useUpdateFileMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateFileMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateFileMutation, { data, loading, error }] = useUpdateFileMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      title: // value for 'title'
+ *      text: // value for 'text'
+ *   },
+ * });
+ */
+export function useUpdateFileMutation(baseOptions?: Apollo.MutationHookOptions<UpdateFileMutation, UpdateFileMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateFileMutation, UpdateFileMutationVariables>(UpdateFileDocument, options);
+      }
+export type UpdateFileMutationHookResult = ReturnType<typeof useUpdateFileMutation>;
+export type UpdateFileMutationResult = Apollo.MutationResult<UpdateFileMutation>;
+export type UpdateFileMutationOptions = Apollo.BaseMutationOptions<UpdateFileMutation, UpdateFileMutationVariables>;
+export const FileDocument = gql`
+    query File($id: String!) {
+  file(id: $id) {
+    errors {
+      ...FileError
+    }
+    data {
+      id
+      createdAt
+      updatedAt
+      title
+      text
+    }
+  }
+}
+    ${FileErrorFragmentDoc}`;
+
+/**
+ * __useFileQuery__
+ *
+ * To run a query within a React component, call `useFileQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFileQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFileQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useFileQuery(baseOptions: Apollo.QueryHookOptions<FileQuery, FileQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FileQuery, FileQueryVariables>(FileDocument, options);
+      }
+export function useFileLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FileQuery, FileQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FileQuery, FileQueryVariables>(FileDocument, options);
+        }
+export type FileQueryHookResult = ReturnType<typeof useFileQuery>;
+export type FileLazyQueryHookResult = ReturnType<typeof useFileLazyQuery>;
+export type FileQueryResult = Apollo.QueryResult<FileQuery, FileQueryVariables>;
 export const FilesDocument = gql`
     query Files($id: String!) {
   files(id: $id) {

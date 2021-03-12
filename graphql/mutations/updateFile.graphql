@@ -1,0 +1,15 @@
+mutation UpdateFile($id: String!, $title: String, $text: String) {
+    updateFile(id: $id, text: $text, title: $title) {
+        errors {
+            field
+            message
+        }
+        data {
+            id
+            updatedAt
+            createdAt
+            title
+            text
+        }
+    }
+}

@@ -1,0 +1,14 @@
+query File($id: String!) {
+    file(id: $id) {
+        errors {
+            ...FileError
+        }
+        data {
+            id
+            createdAt
+            updatedAt
+            title
+            text
+        }
+    }
+}

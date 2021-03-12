@@ -1,4 +1,10 @@
-import { createContext, Dispatch, SetStateAction } from 'react'
+import {
+    createContext,
+    Dispatch,
+    SetStateAction,
+    useContext,
+    useState
+} from 'react'
 
 export interface Dashboard {
     selectedFolder: string
@@ -7,4 +13,25 @@ export interface Dashboard {
     setSelectedFile: Dispatch<SetStateAction<string>>
 }
 
-export const DashboardContext = createContext<Dashboard | null>(null)
+const DashboardContext = createContext<Dashboard | null>(null)
+
+export const useDashboardContext = () =>
+    useContext<Dashboard | null>(DashboardContext)
+
+export const DashboardProvider: React.FC<{}> = ({ children }) => {
+    const [selectedFolder, setSelectedFolder] = useState('')
+    const [selectedFile, setSelectedFile] = useState('')
+
+    return (
+        <DashboardContext.Provider
+            value={{
+                selectedFolder,
+                setSelectedFolder,
+                selectedFile,
+                setSelectedFile
+            }}
+        >
+            {children}
+        </DashboardContext.Provider>
+    )
+}

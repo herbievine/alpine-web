@@ -1,25 +1,16 @@
 import withApollo from '../utils/apolloWrapper'
-import React, { useState } from 'react'
+import React from 'react'
 import DashboardNavigation from '../components/modules/DashboardNavigation'
 import DashboardLeftNavigation from '../components/modules/DashboardLeftNavigation'
-import Editor from '../components/modules/Editor'
-import { DashboardContext } from '../components/contexts/DashboardContext'
+import MarkdownEditor from '../components/modules/Editor'
+import { DashboardProvider } from '../components/contexts/DashboardContext'
 import { isAuthenticated } from '../middleware/isAuthenticated'
 
 const Dashboard: React.FC = ({}) => {
     isAuthenticated()
-    const [selectedFolder, setSelectedFolder] = useState('')
-    const [selectedFile, setSelectedFile] = useState('')
 
     return (
-        <DashboardContext.Provider
-            value={{
-                selectedFolder,
-                setSelectedFolder,
-                selectedFile,
-                setSelectedFile
-            }}
-        >
+        <DashboardProvider>
             <div className="bg-indigo-600 overflow-hidden">
                 <DashboardNavigation />
                 <div className="flex justify-between items-center">
@@ -27,11 +18,11 @@ const Dashboard: React.FC = ({}) => {
                         <DashboardLeftNavigation />
                     </div>
                     <div className="xl:w-5/6">
-                        <Editor selectedFolder={selectedFolder} />
+                        <MarkdownEditor />
                     </div>
                 </div>
             </div>
-        </DashboardContext.Provider>
+        </DashboardProvider>
     )
 }
 

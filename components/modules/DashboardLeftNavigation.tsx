@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { FaCaretRight, FaFolderPlus } from 'react-icons/fa'
 import Popup from 'reactjs-popup'
 import { useFoldersQuery } from '../../generated/graphql'
-import { Dashboard, DashboardContext } from '../contexts/DashboardContext'
+import { useDashboardContext } from '../contexts/DashboardContext'
 import DashboardPopup from '../messages/DashboardPopup'
 
 interface DashboardLeftNavigationProps {}
@@ -11,7 +11,7 @@ const DashboardLeftNavigation: React.FC<DashboardLeftNavigationProps> = ({}) => 
     const { data } = useFoldersQuery()
     const folders = data?.folders.data
 
-    const dashboardContext = useContext<Dashboard | null>(DashboardContext)
+    const dashboardContext = useDashboardContext()
 
     useEffect(
         () =>
