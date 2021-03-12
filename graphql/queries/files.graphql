@@ -1,0 +1,10 @@
+query Files($id: String!) {
+    files(id: $id) {
+        errors {
+            ...FileError
+        }
+        data {
+            ...File
+        }
+    }
+}

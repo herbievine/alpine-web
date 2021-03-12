@@ -9,6 +9,7 @@ import { errorHandler } from '../../utils/errorHandler'
 import FormMessage from '../../components/messages/FormMessage'
 import withApollo from '../../utils/apolloWrapper'
 import { FaLock } from 'react-icons/fa'
+import WithNavigation from '../../components/modules/Navigation'
 
 interface TokenProps {}
 
@@ -28,7 +29,7 @@ const Token: React.FC<TokenProps> = ({}) => {
     const [changePassword] = useChangePasswordMutation()
 
     return (
-        <>
+        <WithNavigation>
             {submitted ? (
                 <FormMessage
                     variant="success"
@@ -128,7 +129,7 @@ const Token: React.FC<TokenProps> = ({}) => {
                     )}
                 </>
             )}
-        </>
+        </WithNavigation>
     )
 }
 

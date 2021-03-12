@@ -1,4 +1,14 @@
-fragment UserErrors on UserFieldError {
+fragment UserError on UserFieldError {
+    field
+    message
+}
+
+fragment FolderError on FolderFieldError {
+    field
+    message
+}
+
+fragment FileError on FileFieldError {
     field
     message
 }

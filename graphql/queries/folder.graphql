@@ -1,5 +1,5 @@
-query Folders {
-    folders {
+query Folder($id: String!) {
+    folder(id: $id) {
         errors {
             ...FolderError
         }

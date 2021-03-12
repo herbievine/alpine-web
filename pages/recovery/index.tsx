@@ -7,6 +7,7 @@ import { useForgotPasswordMutation } from '../../generated/graphql'
 import FormMessage from '../../components/messages/FormMessage'
 import withApollo from '../../utils/apolloWrapper'
 import { FaRegEnvelope } from 'react-icons/fa'
+import WithNavigation from '../../components/modules/Navigation'
 
 interface IndexProps {}
 
@@ -23,7 +24,7 @@ const Index: React.FC<IndexProps> = () => {
     const [forgotPassword] = useForgotPasswordMutation()
 
     return (
-        <>
+        <WithNavigation>
             {submitted ? (
                 <FormMessage
                     variant="neutral"
@@ -92,7 +93,7 @@ const Index: React.FC<IndexProps> = () => {
                     </Formik>
                 </FormLayout>
             )}
-        </>
+        </WithNavigation>
     )
 }
 

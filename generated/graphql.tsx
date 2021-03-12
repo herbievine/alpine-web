@@ -4,6 +4,7 @@ export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+const defaultOptions =  {}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -16,8 +17,20 @@ export type Scalars = {
 export type Query = {
   __typename?: 'Query';
   me?: Maybe<User>;
+  files?: Maybe<FilesResponse>;
+  file?: Maybe<FileResponse>;
   folders: FoldersResponse;
   folder?: Maybe<FolderResponse>;
+};
+
+
+export type QueryFilesArgs = {
+  id: Scalars['String'];
+};
+
+
+export type QueryFileArgs = {
+  id: Scalars['String'];
 };
 
 
@@ -34,25 +47,16 @@ export type User = {
   email: Scalars['String'];
 };
 
-export type FoldersResponse = {
-  __typename?: 'FoldersResponse';
-  errors?: Maybe<Array<FolderMessageError>>;
-  data?: Maybe<Array<Folder>>;
+export type FilesResponse = {
+  __typename?: 'FilesResponse';
+  errors?: Maybe<Array<FileFieldError>>;
+  data?: Maybe<Array<File>>;
 };
 
-export type FolderMessageError = {
-  __typename?: 'FolderMessageError';
+export type FileFieldError = {
+  __typename?: 'FileFieldError';
+  field: Scalars['String'];
   message: Scalars['String'];
-};
-
-export type Folder = {
-  __typename?: 'Folder';
-  id: Scalars['String'];
-  createdAt: Scalars['String'];
-  updatedAt: Scalars['String'];
-  title: Scalars['String'];
-  creatorId: Scalars['String'];
-  files?: Maybe<Array<File>>;
 };
 
 export type File = {
@@ -65,9 +69,36 @@ export type File = {
   folderId: Scalars['String'];
 };
 
+export type FileResponse = {
+  __typename?: 'FileResponse';
+  errors?: Maybe<Array<FileFieldError>>;
+  data?: Maybe<File>;
+};
+
+export type FoldersResponse = {
+  __typename?: 'FoldersResponse';
+  errors?: Maybe<Array<FolderFieldError>>;
+  data?: Maybe<Array<Folder>>;
+};
+
+export type FolderFieldError = {
+  __typename?: 'FolderFieldError';
+  field: Scalars['String'];
+  message: Scalars['String'];
+};
+
+export type Folder = {
+  __typename?: 'Folder';
+  id: Scalars['String'];
+  createdAt: Scalars['String'];
+  updatedAt: Scalars['String'];
+  title: Scalars['String'];
+  creatorId: Scalars['String'];
+};
+
 export type FolderResponse = {
   __typename?: 'FolderResponse';
-  errors?: Maybe<Array<FolderMessageError>>;
+  errors?: Maybe<Array<FolderFieldError>>;
   data?: Maybe<Folder>;
 };
 
@@ -79,7 +110,10 @@ export type Mutation = {
   changePassword: UserResponse;
   logout: Scalars['Boolean'];
   deleteUser: Scalars['Boolean'];
-  createFile: FolderResponse;
+  createFile?: Maybe<FileResponse>;
+  updateFile?: Maybe<FileResponse>;
+  deleteFile: Scalars['Boolean'];
+  createFolder: FolderResponse;
   updateFolder?: Maybe<FolderResponse>;
   deleteFolder: Scalars['Boolean'];
 };
@@ -116,6 +150,24 @@ export type MutationDeleteUserArgs = {
 
 export type MutationCreateFileArgs = {
   title: Scalars['String'];
+  id: Scalars['String'];
+};
+
+
+export type MutationUpdateFileArgs = {
+  text?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
+};
+
+
+export type MutationDeleteFileArgs = {
+  id: Scalars['String'];
+};
+
+
+export type MutationCreateFolderArgs = {
+  title: Scalars['String'];
 };
 
 
@@ -141,9 +193,24 @@ export type UserFieldError = {
   message: Scalars['String'];
 };
 
-export type UserErrorsFragment = (
+export type UserErrorFragment = (
   { __typename?: 'UserFieldError' }
   & Pick<UserFieldError, 'field' | 'message'>
+);
+
+export type FolderErrorFragment = (
+  { __typename?: 'FolderFieldError' }
+  & Pick<FolderFieldError, 'field' | 'message'>
+);
+
+export type FileErrorFragment = (
+  { __typename?: 'FileFieldError' }
+  & Pick<FileFieldError, 'field' | 'message'>
+);
+
+export type FileFragment = (
+  { __typename?: 'File' }
+  & Pick<File, 'id' | 'title' | 'text' | 'updatedAt'>
 );
 
 export type FolderFragment = (
@@ -168,10 +235,49 @@ export type ChangePasswordMutation = (
     { __typename?: 'UserResponse' }
     & { errors?: Maybe<Array<(
       { __typename?: 'UserFieldError' }
-      & UserErrorsFragment
+      & UserErrorFragment
     )>>, user?: Maybe<(
       { __typename?: 'User' }
       & UserFragment
+    )> }
+  ) }
+);
+
+export type CreateFileMutationVariables = Exact<{
+  id: Scalars['String'];
+  title: Scalars['String'];
+}>;
+
+
+export type CreateFileMutation = (
+  { __typename?: 'Mutation' }
+  & { createFile?: Maybe<(
+    { __typename?: 'FileResponse' }
+    & { errors?: Maybe<Array<(
+      { __typename?: 'FileFieldError' }
+      & FileErrorFragment
+    )>>, data?: Maybe<(
+      { __typename?: 'File' }
+      & FileFragment
+    )> }
+  )> }
+);
+
+export type CreateFolderMutationVariables = Exact<{
+  title: Scalars['String'];
+}>;
+
+
+export type CreateFolderMutation = (
+  { __typename?: 'Mutation' }
+  & { createFolder: (
+    { __typename?: 'FolderResponse' }
+    & { errors?: Maybe<Array<(
+      { __typename?: 'FolderFieldError' }
+      & FolderErrorFragment
+    )>>, data?: Maybe<(
+      { __typename?: 'Folder' }
+      & FolderFragment
     )> }
   ) }
 );
@@ -198,7 +304,7 @@ export type LoginMutation = (
     { __typename?: 'UserResponse' }
     & { errors?: Maybe<Array<(
       { __typename?: 'UserFieldError' }
-      & UserErrorsFragment
+      & UserErrorFragment
     )>>, user?: Maybe<(
       { __typename?: 'User' }
       & UserFragment
@@ -227,12 +333,50 @@ export type RegisterMutation = (
     { __typename?: 'UserResponse' }
     & { errors?: Maybe<Array<(
       { __typename?: 'UserFieldError' }
-      & UserErrorsFragment
+      & UserErrorFragment
     )>>, user?: Maybe<(
       { __typename?: 'User' }
       & UserFragment
     )> }
   ) }
+);
+
+export type FilesQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type FilesQuery = (
+  { __typename?: 'Query' }
+  & { files?: Maybe<(
+    { __typename?: 'FilesResponse' }
+    & { errors?: Maybe<Array<(
+      { __typename?: 'FileFieldError' }
+      & FileErrorFragment
+    )>>, data?: Maybe<Array<(
+      { __typename?: 'File' }
+      & FileFragment
+    )>> }
+  )> }
+);
+
+export type FolderQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type FolderQuery = (
+  { __typename?: 'Query' }
+  & { folder?: Maybe<(
+    { __typename?: 'FolderResponse' }
+    & { errors?: Maybe<Array<(
+      { __typename?: 'FolderFieldError' }
+      & FolderErrorFragment
+    )>>, data?: Maybe<(
+      { __typename?: 'Folder' }
+      & FolderFragment
+    )> }
+  )> }
 );
 
 export type FoldersQueryVariables = Exact<{ [key: string]: never; }>;
@@ -243,8 +387,8 @@ export type FoldersQuery = (
   & { folders: (
     { __typename?: 'FoldersResponse' }
     & { errors?: Maybe<Array<(
-      { __typename?: 'FolderMessageError' }
-      & Pick<FolderMessageError, 'message'>
+      { __typename?: 'FolderFieldError' }
+      & FolderErrorFragment
     )>>, data?: Maybe<Array<(
       { __typename?: 'Folder' }
       & FolderFragment
@@ -263,10 +407,30 @@ export type MeQuery = (
   )> }
 );
 
-export const UserErrorsFragmentDoc = gql`
-    fragment UserErrors on UserFieldError {
+export const UserErrorFragmentDoc = gql`
+    fragment UserError on UserFieldError {
   field
   message
+}
+    `;
+export const FolderErrorFragmentDoc = gql`
+    fragment FolderError on FolderFieldError {
+  field
+  message
+}
+    `;
+export const FileErrorFragmentDoc = gql`
+    fragment FileError on FileFieldError {
+  field
+  message
+}
+    `;
+export const FileFragmentDoc = gql`
+    fragment File on File {
+  id
+  title
+  text
+  updatedAt
 }
     `;
 export const FolderFragmentDoc = gql`
@@ -285,14 +449,14 @@ export const ChangePasswordDocument = gql`
     mutation ChangePassword($token: String!, $password: String!) {
   changePassword(token: $token, password: $password) {
     errors {
-      ...UserErrors
+      ...UserError
     }
     user {
       ...User
     }
   }
 }
-    ${UserErrorsFragmentDoc}
+    ${UserErrorFragmentDoc}
 ${UserFragmentDoc}`;
 export type ChangePasswordMutationFn = Apollo.MutationFunction<ChangePasswordMutation, ChangePasswordMutationVariables>;
 
@@ -315,11 +479,91 @@ export type ChangePasswordMutationFn = Apollo.MutationFunction<ChangePasswordMut
  * });
  */
 export function useChangePasswordMutation(baseOptions?: Apollo.MutationHookOptions<ChangePasswordMutation, ChangePasswordMutationVariables>) {
-        return Apollo.useMutation<ChangePasswordMutation, ChangePasswordMutationVariables>(ChangePasswordDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ChangePasswordMutation, ChangePasswordMutationVariables>(ChangePasswordDocument, options);
       }
 export type ChangePasswordMutationHookResult = ReturnType<typeof useChangePasswordMutation>;
 export type ChangePasswordMutationResult = Apollo.MutationResult<ChangePasswordMutation>;
 export type ChangePasswordMutationOptions = Apollo.BaseMutationOptions<ChangePasswordMutation, ChangePasswordMutationVariables>;
+export const CreateFileDocument = gql`
+    mutation CreateFile($id: String!, $title: String!) {
+  createFile(id: $id, title: $title) {
+    errors {
+      ...FileError
+    }
+    data {
+      ...File
+    }
+  }
+}
+    ${FileErrorFragmentDoc}
+${FileFragmentDoc}`;
+export type CreateFileMutationFn = Apollo.MutationFunction<CreateFileMutation, CreateFileMutationVariables>;
+
+/**
+ * __useCreateFileMutation__
+ *
+ * To run a mutation, you first call `useCreateFileMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateFileMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createFileMutation, { data, loading, error }] = useCreateFileMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      title: // value for 'title'
+ *   },
+ * });
+ */
+export function useCreateFileMutation(baseOptions?: Apollo.MutationHookOptions<CreateFileMutation, CreateFileMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateFileMutation, CreateFileMutationVariables>(CreateFileDocument, options);
+      }
+export type CreateFileMutationHookResult = ReturnType<typeof useCreateFileMutation>;
+export type CreateFileMutationResult = Apollo.MutationResult<CreateFileMutation>;
+export type CreateFileMutationOptions = Apollo.BaseMutationOptions<CreateFileMutation, CreateFileMutationVariables>;
+export const CreateFolderDocument = gql`
+    mutation CreateFolder($title: String!) {
+  createFolder(title: $title) {
+    errors {
+      ...FolderError
+    }
+    data {
+      ...Folder
+    }
+  }
+}
+    ${FolderErrorFragmentDoc}
+${FolderFragmentDoc}`;
+export type CreateFolderMutationFn = Apollo.MutationFunction<CreateFolderMutation, CreateFolderMutationVariables>;
+
+/**
+ * __useCreateFolderMutation__
+ *
+ * To run a mutation, you first call `useCreateFolderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateFolderMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createFolderMutation, { data, loading, error }] = useCreateFolderMutation({
+ *   variables: {
+ *      title: // value for 'title'
+ *   },
+ * });
+ */
+export function useCreateFolderMutation(baseOptions?: Apollo.MutationHookOptions<CreateFolderMutation, CreateFolderMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateFolderMutation, CreateFolderMutationVariables>(CreateFolderDocument, options);
+      }
+export type CreateFolderMutationHookResult = ReturnType<typeof useCreateFolderMutation>;
+export type CreateFolderMutationResult = Apollo.MutationResult<CreateFolderMutation>;
+export type CreateFolderMutationOptions = Apollo.BaseMutationOptions<CreateFolderMutation, CreateFolderMutationVariables>;
 export const ForgotPasswordDocument = gql`
     mutation ForgotPassword($email: String!) {
   forgotPassword(email: $email)
@@ -345,7 +589,8 @@ export type ForgotPasswordMutationFn = Apollo.MutationFunction<ForgotPasswordMut
  * });
  */
 export function useForgotPasswordMutation(baseOptions?: Apollo.MutationHookOptions<ForgotPasswordMutation, ForgotPasswordMutationVariables>) {
-        return Apollo.useMutation<ForgotPasswordMutation, ForgotPasswordMutationVariables>(ForgotPasswordDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ForgotPasswordMutation, ForgotPasswordMutationVariables>(ForgotPasswordDocument, options);
       }
 export type ForgotPasswordMutationHookResult = ReturnType<typeof useForgotPasswordMutation>;
 export type ForgotPasswordMutationResult = Apollo.MutationResult<ForgotPasswordMutation>;
@@ -354,14 +599,14 @@ export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
   login(email: $email, password: $password) {
     errors {
-      ...UserErrors
+      ...UserError
     }
     user {
       ...User
     }
   }
 }
-    ${UserErrorsFragmentDoc}
+    ${UserErrorFragmentDoc}
 ${UserFragmentDoc}`;
 export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
 
@@ -384,7 +629,8 @@ export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutati
  * });
  */
 export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
-        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
       }
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
@@ -413,7 +659,8 @@ export type LogoutMutationFn = Apollo.MutationFunction<LogoutMutation, LogoutMut
  * });
  */
 export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<LogoutMutation, LogoutMutationVariables>) {
-        return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument, options);
       }
 export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
@@ -422,14 +669,14 @@ export const RegisterDocument = gql`
     mutation Register($username: String!, $password: String!, $email: String!) {
   register(username: $username, password: $password, email: $email) {
     errors {
-      ...UserErrors
+      ...UserError
     }
     user {
       ...User
     }
   }
 }
-    ${UserErrorsFragmentDoc}
+    ${UserErrorFragmentDoc}
 ${UserFragmentDoc}`;
 export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, RegisterMutationVariables>;
 
@@ -453,23 +700,107 @@ export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, Regis
  * });
  */
 export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<RegisterMutation, RegisterMutationVariables>) {
-        return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument, options);
       }
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
-export const FoldersDocument = gql`
-    query Folders {
-  folders {
+export const FilesDocument = gql`
+    query Files($id: String!) {
+  files(id: $id) {
     errors {
-      message
+      ...FileError
+    }
+    data {
+      ...File
+    }
+  }
+}
+    ${FileErrorFragmentDoc}
+${FileFragmentDoc}`;
+
+/**
+ * __useFilesQuery__
+ *
+ * To run a query within a React component, call `useFilesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFilesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFilesQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useFilesQuery(baseOptions: Apollo.QueryHookOptions<FilesQuery, FilesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FilesQuery, FilesQueryVariables>(FilesDocument, options);
+      }
+export function useFilesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FilesQuery, FilesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FilesQuery, FilesQueryVariables>(FilesDocument, options);
+        }
+export type FilesQueryHookResult = ReturnType<typeof useFilesQuery>;
+export type FilesLazyQueryHookResult = ReturnType<typeof useFilesLazyQuery>;
+export type FilesQueryResult = Apollo.QueryResult<FilesQuery, FilesQueryVariables>;
+export const FolderDocument = gql`
+    query Folder($id: String!) {
+  folder(id: $id) {
+    errors {
+      ...FolderError
     }
     data {
       ...Folder
     }
   }
 }
-    ${FolderFragmentDoc}`;
+    ${FolderErrorFragmentDoc}
+${FolderFragmentDoc}`;
+
+/**
+ * __useFolderQuery__
+ *
+ * To run a query within a React component, call `useFolderQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFolderQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFolderQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useFolderQuery(baseOptions: Apollo.QueryHookOptions<FolderQuery, FolderQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FolderQuery, FolderQueryVariables>(FolderDocument, options);
+      }
+export function useFolderLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FolderQuery, FolderQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FolderQuery, FolderQueryVariables>(FolderDocument, options);
+        }
+export type FolderQueryHookResult = ReturnType<typeof useFolderQuery>;
+export type FolderLazyQueryHookResult = ReturnType<typeof useFolderLazyQuery>;
+export type FolderQueryResult = Apollo.QueryResult<FolderQuery, FolderQueryVariables>;
+export const FoldersDocument = gql`
+    query Folders {
+  folders {
+    errors {
+      ...FolderError
+    }
+    data {
+      ...Folder
+    }
+  }
+}
+    ${FolderErrorFragmentDoc}
+${FolderFragmentDoc}`;
 
 /**
  * __useFoldersQuery__
@@ -487,10 +818,12 @@ export const FoldersDocument = gql`
  * });
  */
 export function useFoldersQuery(baseOptions?: Apollo.QueryHookOptions<FoldersQuery, FoldersQueryVariables>) {
-        return Apollo.useQuery<FoldersQuery, FoldersQueryVariables>(FoldersDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FoldersQuery, FoldersQueryVariables>(FoldersDocument, options);
       }
 export function useFoldersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FoldersQuery, FoldersQueryVariables>) {
-          return Apollo.useLazyQuery<FoldersQuery, FoldersQueryVariables>(FoldersDocument, baseOptions);
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FoldersQuery, FoldersQueryVariables>(FoldersDocument, options);
         }
 export type FoldersQueryHookResult = ReturnType<typeof useFoldersQuery>;
 export type FoldersLazyQueryHookResult = ReturnType<typeof useFoldersLazyQuery>;
@@ -519,10 +852,12 @@ export const MeDocument = gql`
  * });
  */
 export function useMeQuery(baseOptions?: Apollo.QueryHookOptions<MeQuery, MeQueryVariables>) {
-        return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, options);
       }
 export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>) {
-          return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, baseOptions);
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
         }
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;

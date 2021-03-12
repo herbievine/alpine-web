@@ -8,6 +8,8 @@ import { errorHandler } from '../utils/errorHandler'
 import { useRouter } from 'next/router'
 import withApollo from '../utils/apolloWrapper'
 import { FaRegEnvelope, FaLock } from 'react-icons/fa'
+import WithNavigation from '../components/modules/Navigation'
+import { isAuthenticated } from '../middleware/isAuthenticated'
 
 interface LoginProps {}
 
@@ -21,78 +23,81 @@ type Values = {
 }
 
 const Login: React.FC<LoginProps> = () => {
+    isAuthenticated()
     const router = useRouter()
     const next = router.query.next as string | undefined
     const [login, { client }] = useLoginMutation()
 
     return (
-        <FormLayout title="Login" description="Login with your email">
-            <Formik
-                initialValues={{ email: '', password: '' }}
-                validate={(values: Values) => {
-                    const errors: FormikErrors = {}
+        <WithNavigation>
+            <FormLayout title="Login" description="Login with your email">
+                <Formik
+                    initialValues={{ email: '', password: '' }}
+                    validate={(values: Values) => {
+                        const errors: FormikErrors = {}
 
-                    const emailValidation = validateEmail(values.email)
-                    if (typeof emailValidation === 'string')
-                        errors.email = emailValidation
+                        const emailValidation = validateEmail(values.email)
+                        if (typeof emailValidation === 'string')
+                            errors.email = emailValidation
 
-                    const passwordValidation = validatePassword(
-                        values.password,
-                        6
-                    )
-                    if (typeof passwordValidation === 'string')
-                        errors.password = passwordValidation
+                        const passwordValidation = validatePassword(
+                            values.password,
+                            6
+                        )
+                        if (typeof passwordValidation === 'string')
+                            errors.password = passwordValidation
 
-                    return errors
-                }}
-                onSubmit={async (values, { setErrors }) => {
-                    const { data } = await login({ variables: values })
+                        return errors
+                    }}
+                    onSubmit={async (values, { setErrors }) => {
+                        const { data } = await login({ variables: values })
 
-                    if (data?.login.errors) {
-                        return setErrors(errorHandler(data.login.errors))
-                    } else if (data?.login.user) {
-                        await client.resetStore()
-                        await router.push(next ? next : '/')
-                    }
-                }}
-            >
-                {({
-                    handleSubmit,
-                    handleChange,
-                    handleBlur,
-                    values,
-                    errors,
-                    touched,
-                    isSubmitting
-                }) => (
-                    <FormikFormHelper
-                        handleSubmit={handleSubmit}
-                        handleChange={handleChange}
-                        handleBlur={handleBlur}
-                        values={values}
-                        errors={errors}
-                        touched={touched}
-                        isSubmitting={isSubmitting}
-                        inputs={[
-                            {
-                                label: 'Email',
-                                id: 'email',
-                                placeholder: 'Enter your email',
-                                icon: <FaRegEnvelope />
-                            },
-                            {
-                                label: 'Password',
-                                id: 'password',
-                                placeholder: 'Enter your password',
-                                icon: <FaLock />
-                            }
-                        ]}
-                        submitText={'Login'}
-                        forgotPassword={true}
-                    />
-                )}
-            </Formik>
-        </FormLayout>
+                        if (data?.login.errors) {
+                            return setErrors(errorHandler(data.login.errors))
+                        } else if (data?.login.user) {
+                            await client.resetStore()
+                            await router.push(next ? next : '/')
+                        }
+                    }}
+                >
+                    {({
+                        handleSubmit,
+                        handleChange,
+                        handleBlur,
+                        values,
+                        errors,
+                        touched,
+                        isSubmitting
+                    }) => (
+                        <FormikFormHelper
+                            handleSubmit={handleSubmit}
+                            handleChange={handleChange}
+                            handleBlur={handleBlur}
+                            values={values}
+                            errors={errors}
+                            touched={touched}
+                            isSubmitting={isSubmitting}
+                            inputs={[
+                                {
+                                    label: 'Email',
+                                    id: 'email',
+                                    placeholder: 'Enter your email',
+                                    icon: <FaRegEnvelope />
+                                },
+                                {
+                                    label: 'Password',
+                                    id: 'password',
+                                    placeholder: 'Enter your password',
+                                    icon: <FaLock />
+                                }
+                            ]}
+                            submitText={'Login'}
+                            forgotPassword={true}
+                        />
+                    )}
+                </Formik>
+            </FormLayout>
+        </WithNavigation>
     )
 }
 

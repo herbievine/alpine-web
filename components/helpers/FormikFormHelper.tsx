@@ -7,6 +7,7 @@ import {
 } from 'formik'
 import Link from 'next/link'
 import { useState } from 'react'
+import { FaQuestionCircle } from 'react-icons/fa'
 
 interface FormikFormHelperProps {
     handleSubmit: FormikHandlers['handleSubmit']
@@ -21,6 +22,7 @@ interface FormikFormHelperProps {
         id: string
         placeholder: string
         icon: ReactNode
+        help?: string
     }[]
     submitText: string
     forgotPassword?: boolean
@@ -55,10 +57,17 @@ const FormikFormHelper: React.FC<FormikFormHelperProps> = ({
                     key={index}
                 >
                     <div className="w-full flex justify-between items-center">
-                        <label htmlFor={value.id} className="text-sm">
-                            {value.label}
-                            <span className="text-red-500">*</span>
-                        </label>
+                        <div className="flex items-center">
+                            <label htmlFor={value.id} className="text-sm">
+                                {value.label}
+                                <span className="text-red-500">*</span>
+                            </label>
+                            {value.help && (
+                                <div className="ml-2" title={value.help}>
+                                    <FaQuestionCircle size={12} />
+                                </div>
+                            )}
+                        </div>
                         <p className="text-xs font-medium text-red-500">
                             {errors && touched[value.id] && errors[value.id]}
                         </p>
@@ -89,7 +98,7 @@ const FormikFormHelper: React.FC<FormikFormHelperProps> = ({
                                 setCurrectSelection('')
                             }}
                             onFocus={() => setCurrectSelection(value.id)}
-                            value={values[value.id].toLowerCase()}
+                            value={values[value.id]}
                         />
                     </div>
                     {forgotPassword && value.id === 'password' && (
@@ -104,7 +113,7 @@ const FormikFormHelper: React.FC<FormikFormHelperProps> = ({
                 </div>
             ))}
             <button
-                className="mt-4 px-6 py-2 rounded-lg font-medium text-white gradient focus:outline-none"
+                className="mt-4 px-6 py-2 rounded-lg font-medium text-white bg-indigo-600 focus:outline-none"
                 type="submit"
                 disabled={isSubmitting}
             >

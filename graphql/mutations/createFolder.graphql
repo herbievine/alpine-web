@@ -1,5 +1,5 @@
-query Folders {
-    folders {
+mutation CreateFolder($title: String!) {
+    createFolder(title: $title) {
         errors {
             ...FolderError
         }

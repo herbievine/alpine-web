@@ -1,0 +1,10 @@
+mutation CreateFile($id: String!, $title: String!) {
+    createFile(id: $id, title: $title) {
+        errors {
+            ...FileError
+        }
+        data {
+            ...File
+        }
+    }
+}

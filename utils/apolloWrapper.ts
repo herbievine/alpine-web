@@ -12,7 +12,17 @@ const createClient = (ctx: NextPageContext) => {
                     : undefined) || ''
         },
         credentials: 'include',
-        cache: new InMemoryCache()
+        cache: new InMemoryCache({
+            typePolicies: {
+                Query: {
+                    fields: {
+                        folders: {
+                            keyArgs: []
+                        }
+                    }
+                }
+            }
+        })
     })
 }
 
