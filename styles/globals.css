@@ -15,3 +15,137 @@ body {
         rgba(238, 71, 153, 1) 100%
     );
 }
+
+.default img {
+    margin: 0;
+    border: 0;
+}
+
+.default p {
+    margin: 1em 0;
+}
+
+.default a {
+    color: #00213d;
+}
+
+.default a:visited {
+    color: #00213d;
+    background-color: transparent;
+}
+
+.default a:active {
+    color: #318100;
+    background-color: transparent;
+}
+
+.default a:hover {
+    text-decoration: none;
+}
+
+.default p img {
+    border: 0;
+    margin: 0;
+}
+
+.default h1,
+.default h2,
+.default h3,
+.default h4,
+.default h5,
+.default h6 {
+    background-color: transparent;
+    margin: 1em 0;
+    font-weight: normal;
+}
+
+.default h1 {
+    font-size: 180%;
+}
+
+.default h2 {
+    font-size: 160%;
+}
+
+.default h3 {
+    font-size: 140%;
+}
+
+.default h4 {
+    font-size: 110%;
+}
+
+.default h5 {
+    font-size: 105%;
+}
+
+.default h6 {
+    font-size: 100%;
+}
+
+.default dt {
+    font-style: italic;
+}
+
+.default dd {
+    margin-bottom: 1.5em;
+}
+
+.default li {
+    line-height: 1.5em;
+}
+
+.default code {
+    padding: 0.1em;
+    font-size: 14px;
+    font-family: 'Menlo', monospace;
+    background-color: #f5f5f5;
+    border: 1px solid #efefef;
+}
+
+.default pre {
+    font-family: 'Menlo', monospace;
+    background-color: #fff;
+    padding: 0.5em;
+    line-height: 1.25em;
+    border: 1px solid #efefef;
+    border-bottom: 1px solid #ddd;
+    -webkit-box-shadow: 0 1px 3px 0 #eee;
+    -moz-box-shadow: 0 1px 3px 0 #eee;
+    -ms-box-shadow: 0 1px 3px 0 #eee;
+    box-shadow: 0 1px 3px 0 #eee;
+}
+
+.default pre code {
+    background-color: transparent;
+    border-width: 0;
+}
+
+.default blockquote {
+    border-top: 1px solid #efefef;
+    border-bottom: 1px solid #ddd;
+    -webkit-box-shadow: 0 1px 3px 0 #eee;
+    -moz-box-shadow: 0 1px 3px 0 #eee;
+    -ms-box-shadow: 0 1px 3px 0 #eee;
+    box-shadow: 0 1px 3px 0 #eee;
+}
+
+.default table {
+    border-collapse: collapse;
+    border: 1px solid #efefef;
+    border-bottom: 1px solid #ddd;
+    -webkit-box-shadow: 0 1px 3px 0 #eee;
+    -moz-box-shadow: 0 1px 3px 0 #eee;
+    -ms-box-shadow: 0 1px 3px 0 #eee;
+    box-shadow: 0 1px 3px 0 #eee;
+}
+
+.default td,
+.default th {
+    border: 1px solid #ddd;
+    padding: 0.5em;
+}
+
+.default th {
+    background-color: #f5f5f5;
+}

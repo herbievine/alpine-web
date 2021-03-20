@@ -6,15 +6,8 @@ import {
 } from '../../generated/graphql'
 import { useDashboardContext } from '../contexts/DashboardContext'
 import FileSwitcher from './FileSwitcher'
-import dynamic from 'next/dynamic'
-import MarkdownIt from 'markdown-it'
-import 'react-markdown-editor-lite/lib/index.css'
-
-const MdEditor = dynamic(() => import('react-markdown-editor-lite'), {
-    ssr: false
-})
-
-const mdParser = new MarkdownIt()
+import ReactMarkdown from 'react-markdown'
+import gfm from 'remark-gfm'
 
 interface MarkdownEditorProps {}
 
@@ -31,8 +24,8 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({}) => {
         fileData?.file?.data?.text
     )
 
-    const handleTextChange = ({ text }: { text: string }) => {
-        setText(text.replace(/\d/g, ''))
+    const handleTextChange = (event: any) => {
+        setText(event.target.value.replace(/\d/g, ''))
         updateFile({
             variables: {
                 id: dashboardContext?.selectedFile ?? '',
@@ -49,13 +42,36 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({}) => {
         <div className="flex items-start justify-start w-5/6 h-full z-10 absolute top-14 bg-gray-100">
             {data?.folder?.data && <FileSwitcher folder={data} />}
             {fileData?.file?.data && (
-                <div className="relative mt-20 w-full mx-36">
-                    <MdEditor
-                        value={text}
-                        style={{ height: '500px' }}
-                        renderHTML={(text) => mdParser.render(text)}
-                        onChange={handleTextChange}
-                    />
+                <div className="flex items-start justify-between p-6 rounded-lg relative mt-20 w-full mx-36 shadow-lg bg-white">
+                    <div className="flex-1 mr-6">
+                        <div className="w-full border-b-2 text-lg font-bold mb-6 border-gray-200">
+                            <h3>Text</h3>
+                        </div>
+                        <textarea
+                            className="w-full h-96 focus:outline-none"
+                            value={text}
+                            onChange={handleTextChange}
+                        />
+                    </div>
+                    <div className="flex-1">
+                        <div className="w-full flex items-center justify-between border-b-2 text-lg font-bold mb-6 border-gray-200">
+                            <h3>Markdown</h3>
+                            <a
+                                className="text-xs"
+                                target="_blank"
+                                href="https://www.markdownguide.org/cheat-sheet/"
+                                rel="nofollow"
+                            >
+                                Need help with Markdown?
+                            </a>
+                        </div>
+                        {/* @ts-ignore */}
+                        <ReactMarkdown
+                            className="default"
+                            plugins={[gfm]}
+                            children={text}
+                        />
+                    </div>
                 </div>
             )}
         </div>

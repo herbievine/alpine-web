@@ -9,7 +9,12 @@ const isAuthenticated = () => {
     console.log('auth middleware')
 
     useEffect(() => {
-        if (!loading && !data?.me) {
+        if (
+            !loading &&
+            !data?.me &&
+            router.route !== '/register' &&
+            router.route !== '/login'
+        ) {
             router.replace('/login?next=' + router.route)
         } else if (!loading && data?.me) {
             router.replace((router.query.next as string) ?? '/dashboard')

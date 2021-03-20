@@ -59,6 +59,14 @@ const WithNavigation: React.FC<WithNavigationProps> = ({ children }) => {
                                     </p>
                                 </div>
                                 <button
+                                    className="mr-6 px-3 py-1 rounded-lg font-bold text-sm uppercase text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none transition duration-500 ease"
+                                    onClick={() => {
+                                        router.replace('/dashboard')
+                                    }}
+                                >
+                                    Dashboard
+                                </button>
+                                <button
                                     className="px-3 py-1 rounded-lg font-bold text-sm uppercase text-white bg-red-400 hover:bg-red-500 focus:outline-none transition duration-500 ease"
                                     onClick={async () => {
                                         const response = await logout()
