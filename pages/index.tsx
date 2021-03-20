@@ -1,6 +1,5 @@
 import withApollo from '../utils/apolloWrapper'
-import React, { useContext } from 'react'
-import { ThemeContext } from '../components/contexts/ThemeContext'
+import React from 'react'
 import WithNavigation from '../components/modules/Navigation'
 
 interface IndexProps {}

@@ -129,7 +129,7 @@ const DashboardPopup: React.FC<DashboardPopupProps> = ({
                                 {errors && touched.title && errors.title}
                             </p>
                             <button
-                                className="mt-4"
+                                className="mt-4 focus:outline-none"
                                 type="submit"
                                 disabled={isSubmitting}
                             >

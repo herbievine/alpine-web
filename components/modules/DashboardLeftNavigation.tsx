@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { FaCaretRight, FaFolderPlus } from 'react-icons/fa'
 import Popup from 'reactjs-popup'
 import { useFoldersQuery } from '../../generated/graphql'

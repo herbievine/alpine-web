@@ -31,7 +31,7 @@ const FileCard: React.FC<FileCardProps> = ({ file, selectedId }) => {
                     <p className="text-xs">Last updated: {date.toString()}</p>
                 </div>
             </div>
-            <div className="flex-grow flex justify-end pr-6">
+            <div className="flex-grow flex justify-end pr-4">
                 <div
                     title="Delete File"
                     onClick={async () => {
@@ -41,7 +41,7 @@ const FileCard: React.FC<FileCardProps> = ({ file, selectedId }) => {
 
                         await client.resetStore()
                     }}
-                    className="p-2"
+                    className="p-4"
                 >
                     <FaTrashAlt color={'#D9463D'} />
                 </div>

@@ -57,7 +57,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({}) => {
                         <div className="w-full flex items-center justify-between border-b-2 text-lg font-bold mb-6 border-gray-200">
                             <h3>Markdown</h3>
                             <a
-                                className="text-xs"
+                                className="text-xs font-medium"
                                 target="_blank"
                                 href="https://www.markdownguide.org/cheat-sheet/"
                                 rel="nofollow"
