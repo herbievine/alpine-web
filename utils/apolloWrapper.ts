@@ -3,8 +3,10 @@ import { NextPageContext } from 'next'
 import { withApollo } from 'next-apollo'
 
 const createClient = (ctx: NextPageContext) => {
+    console.log(process.env.NEXT_PUBLIC_API_URL)
+
     return new ApolloClient({
-        uri: process.env.API_URL,
+        uri: process.env.NEXT_PUBLIC_API_URL,
         headers: {
             cookie:
                 (typeof window === 'undefined'

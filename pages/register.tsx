@@ -8,8 +8,8 @@ import {
     validatePassword
 } from '../utils/validators'
 import { useRegisterMutation } from '../generated/graphql'
-import { errorHandler } from '../utils/errorHandler'
-import { useRouter } from 'next/router'
+// import { errorHandler } from '../utils/errorHandler'
+// import { useRouter } from 'next/router'
 import withApollo from '../utils/apolloWrapper'
 import { FaLock, FaRegEnvelope, FaUser } from 'react-icons/fa'
 import WithNavigation from '../components/modules/Navigation'
@@ -29,8 +29,8 @@ type Values = {
 
 const Register: React.FC<RegisterProps> = () => {
     isAuthenticated()
-    const router = useRouter()
-    const [register, { client }] = useRegisterMutation()
+    // const router = useRouter()
+    const [register] = useRegisterMutation()
 
     return (
         <WithNavigation>
@@ -60,15 +60,17 @@ const Register: React.FC<RegisterProps> = () => {
 
                         return errors
                     }}
-                    onSubmit={async (values, { setErrors }) => {
-                        const { data } = await register({ variables: values })
+                    onSubmit={async (values) => {
+                        const e = await register({ variables: values })
 
-                        if (data?.register.errors) {
-                            return setErrors(errorHandler(data.register.errors))
-                        } else if (data?.register.user) {
-                            await client.resetStore()
-                            await router.push('/')
-                        }
+                        console.log(e)
+
+                        // if (data?.register.errors) {
+                        //     return setErrors(errorHandler(data.register.errors))
+                        // } else if (data?.register.user) {
+                        //     await client.resetStore()
+                        //     await router.push('/')
+                        // }
                     }}
                 >
                     {({
