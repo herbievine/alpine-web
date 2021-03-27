@@ -6,8 +6,6 @@ const isAuthenticated = () => {
     const { data, loading } = useMeQuery()
     const router = useRouter()
 
-    console.log('auth middleware')
-
     useEffect(() => {
         if (
             !loading &&

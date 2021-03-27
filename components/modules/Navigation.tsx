@@ -26,7 +26,7 @@ const WithNavigation: React.FC<WithNavigationProps> = ({ children }) => {
 
     return (
         <>
-            <div className="w-screen h-14 px-1 sm:px-16 flex justify-between items-center">
+            <div className="w-screen h-14 px-3 sm:px-16 flex justify-between items-center">
                 <div className="cursor-pointer">
                     <Link href="/">
                         <img
