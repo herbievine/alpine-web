@@ -8,6 +8,7 @@ import { useDashboardContext } from '../contexts/DashboardContext'
 import FileSwitcher from './FileSwitcher'
 import ReactMarkdown from 'react-markdown'
 import gfm from 'remark-gfm'
+import { xssFilter } from '../../utils/xssHandler'
 
 interface MarkdownEditorProps {}
 
@@ -25,7 +26,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({}) => {
     )
 
     const handleTextChange = (event: any) => {
-        setText(event.target.value.replace(/\d/g, ''))
+        setText(xssFilter(event.target.value))
         updateFile({
             variables: {
                 id: dashboardContext?.selectedFile ?? '',

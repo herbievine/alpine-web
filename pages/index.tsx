@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import WithNavigation from '../components/modules/Navigation'
 import ReactMarkdown from 'react-markdown'
 import gfm from 'remark-gfm'
+import { xssFilter } from '../utils/xssHandler'
 
 interface IndexProps {}
 
@@ -10,7 +11,7 @@ const Index: React.FC<IndexProps> = () => {
     const [text, setText] = useState<string>('#### Try me')
 
     const handleTextChange = (event: any) => {
-        setText(event.target.value.replace(/\d/g, ''))
+        setText(xssFilter(event.target.value))
     }
 
     return (
