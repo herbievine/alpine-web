@@ -11,6 +11,7 @@ const createClient = (ctx: NextPageContext) => {
                     ? ctx?.req?.headers.cookie
                     : undefined) || ''
         },
+        ssrMode: typeof window === 'undefined',
         credentials: 'include',
         cache: new InMemoryCache({
             typePolicies: {
