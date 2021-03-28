@@ -17,7 +17,7 @@ const isAuthenticated = () => {
         } else if (!loading && data?.me) {
             router.replace((router.query.next as string) ?? '/dashboard')
         }
-    }, [data])
+    }, [data, loading])
 }
 
 export { isAuthenticated }
