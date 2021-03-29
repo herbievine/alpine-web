@@ -1,4 +1,4 @@
-import withApollo from '../utils/apolloWrapper'
+import { withApollo } from '../utils/apolloWrapper'
 import React, { useState } from 'react'
 import WithNavigation from '../components/modules/Navigation'
 import ReactMarkdown from 'react-markdown'

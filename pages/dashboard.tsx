@@ -1,4 +1,4 @@
-import withApollo from '../utils/apolloWrapper'
+import { withApollo } from '../utils/apolloWrapper'
 import React from 'react'
 import DashboardNavigation from '../components/modules/DashboardNavigation'
 import DashboardLeftNavigation from '../components/modules/DashboardLeftNavigation'

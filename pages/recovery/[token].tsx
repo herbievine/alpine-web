@@ -7,7 +7,7 @@ import { validatePassword } from '../../utils/validators'
 import { useChangePasswordMutation } from '../../generated/graphql'
 import { errorHandler } from '../../utils/errorHandler'
 import FormMessage from '../../components/messages/FormMessage'
-import withApollo from '../../utils/apolloWrapper'
+import { withApollo } from '../../utils/apolloWrapper'
 import { FaLock } from 'react-icons/fa'
 import WithNavigation from '../../components/modules/Navigation'
 

@@ -10,7 +10,7 @@ import {
 import { useRegisterMutation } from '../generated/graphql'
 import { errorHandler } from '../utils/errorHandler'
 import { useRouter } from 'next/router'
-import withApollo from '../utils/apolloWrapper'
+import { withApollo } from '../utils/apolloWrapper'
 import { FaLock, FaRegEnvelope, FaUser } from 'react-icons/fa'
 import WithNavigation from '../components/modules/Navigation'
 import { isAuthenticated } from '../middleware/isAuthenticated'

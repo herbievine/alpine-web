@@ -5,7 +5,7 @@ import FormikFormHelper from '../../components/helpers/FormikFormHelper'
 import { validateEmail } from '../../utils/validators'
 import { useForgotPasswordMutation } from '../../generated/graphql'
 import FormMessage from '../../components/messages/FormMessage'
-import withApollo from '../../utils/apolloWrapper'
+import { withApollo } from '../../utils/apolloWrapper'
 import { FaRegEnvelope } from 'react-icons/fa'
 import WithNavigation from '../../components/modules/Navigation'
 
